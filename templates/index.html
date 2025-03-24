@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Language Translator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .video-container {
+            margin-top: 20px;
+            position: relative;
+        }
+        img {
+            max-width: 100%;
+            border: 3px solid #333;
+            border-radius: 10px;
+        }
+        .sentence-display {
+            margin-top: 20px;
+            padding: 15px;
+            border: 2px solid #007bff;
+            border-radius: 10px;
+            font-size: 24px;
+            min-height: 60px;
+            background-color: #f8f9fa;
+            text-align: left;
+            word-wrap: break-word;
+        }
+        .control-buttons {
+            margin-top: 15px;
+        }
+        .control-buttons button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 10px;
+            font-size: 16px;
+        }
+        .control-buttons button:hover {
+            background-color: #0056b3;
+        }
+        .alphabet-guide {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+        .alphabet-item {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            width: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .command-guide {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        .command-item {
+            background-color: #e6f7ff;
+            border: 1px solid #91d5ff;
+            border-radius: 5px;
+            padding: 10px;
+            min-width: 80px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        // Function to update the sentence display
+        function updateSentence() {
+            fetch('/get_sentence')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('sentence-display').innerText = data.sentence;
+                });
+        }
+
+        // Function to reset the sentence
+        function resetSentence() {
+            fetch('/reset_sentence')
+                .then(response => response.json())
+                .then(data => {
+                    updateSentence();
+                });
+        }
+
+        // Update the sentence every second
+        window.onload = function() {
+            setInterval(updateSentence, 1000);
+        };
+
+        function speakSentence() {
+            fetch('/speak_sentence')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Speaking: ', data.text);
+                });
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Real-time Sign Language Translator</h1>
+        <p>Hold hand signs for 2 seconds to add to your sentence</p>
+
+        <div class="video-container">
+            <img src="{{ url_for('video_feed') }}" width="640" height="480">
+        </div>
+
+        <div class="sentence-display" id="sentence-display"></div>
+
+        <div class="control-buttons">
+            <button onclick="resetSentence()">Clear Sentence</button>
+            <button onclick="speakSentence()" style="background-color: #28a745;">Speak</button>
+        </div>
+
+        <h3>American Sign Language Alphabet</h3>
+        <div class="alphabet-guide">
+            <div class="alphabet-item">A</div>
+            <div class="alphabet-item">B</div>
+            <div class="alphabet-item">C</div>
+            <div class="alphabet-item">D</div>
+            <div class="alphabet-item">E</div>
+            <div class="alphabet-item">F</div>
+            <div class="alphabet-item">G</div>
+            <div class="alphabet-item">H</div>
+            <div class="alphabet-item">I</div>
+            <div class="alphabet-item">J</div>
+            <div class="alphabet-item">K</div>
+            <div class="alphabet-item">L</div>
+            <div class="alphabet-item">M</div>
+            <div class="alphabet-item">N</div>
+            <div class="alphabet-item">O</div>
+            <div class="alphabet-item">P</div>
+            <div class="alphabet-item">Q</div>
+            <div class="alphabet-item">R</div>
+            <div class="alphabet-item">S</div>
+            <div class="alphabet-item">T</div>
+            <div class="alphabet-item">U</div>
+            <div class="alphabet-item">V</div>
+            <div class="alphabet-item">W</div>
+            <div class="alphabet-item">X</div>
+            <div class="alphabet-item">Y</div>
+            <div class="alphabet-item">Z</div>
+        </div>
+
+        <h3>Special Commands</h3>
+        <div class="command-guide">
+            <div class="command-item">ADD</div>
+            <div class="command-item">SPACE</div>
+            <div class="command-item">DELETE</div>
+            <div class="command-item">NOTHING</div>
+        </div>
+    </div>
+</body>
+</html>
+        
