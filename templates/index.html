@@ -103,7 +103,7 @@
 
         // Function to reset the sentence
         function resetSentence() {
-            fetch('/reset_sentence')
+            fetch('/api/reset_sentence')  // Match the new route path
                 .then(response => response.json())
                 .then(data => {
                     updateSentence();
@@ -119,7 +119,9 @@
             fetch('/speak_sentence')
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Speaking: ', data.text);
+                    if (data.result === 'success') {
+                        console.log('Speaking: ' + data.sentence);
+                    }
                 });
         }
     </script>
@@ -137,7 +139,7 @@
 
         <div class="control-buttons">
             <button onclick="resetSentence()">Clear Sentence</button>
-            <button onclick="speakSentence()" style="background-color: #28a745;">Speak</button>
+            <button onclick="speakSentence()">Speak Sentence</button>
         </div>
 
         <h3>American Sign Language Alphabet</h3>

@@ -17,15 +17,13 @@ hands = mp_hands.Hands(max_num_hands=1, min_detection_confidence=0.7)
 # Initialize Flask app
 app = Flask(__name__)
 
-# Initialize the TTS engine globally
-tts_engine = TextToSpeech()
-
 # Global variables for sentence building
 current_sentence = ""
 last_prediction = ""
 prediction_start_time = 0
 prediction_duration = 2.0  # Hold sign for 2 seconds to confirm
 special_commands = ["ADD", "SPACE", "DELETE", "NOTHING"]
+tts = TextToSpeech()
 
 # Load model if exists or return None
 def load_model():
@@ -202,10 +200,20 @@ def get_sentence():
     global current_sentence
     return jsonify({'sentence': current_sentence})
 
-@app.route('/reset_sentence')
+# @app.route('/reset_sentence')
+# def reset_sentence():
+#     global current_sentence
+#     current_sentence = ""
+#     return jsonify({'result': 'success'})
+
+@app.route('/api/reset_sentence')  # Changed from '/reset_sentence'
 def reset_sentence():
     global current_sentence
-    tts_engine.stop()  # Stop any ongoing speech
+
+    # Speak the current sentence before clearing
+    if current_sentence:
+        tts.speak(current_sentence)
+
     current_sentence = ""
     return jsonify({'result': 'success'})
 
@@ -213,9 +221,9 @@ def reset_sentence():
 def speak_sentence():
     global current_sentence
     if current_sentence:
-        tts_engine.speak(current_sentence)
-        return jsonify({'result': 'speaking', 'text': current_sentence})
-    return jsonify({'result': 'nothing to speak'})
+        tts.speak(current_sentence)
+        return jsonify({'result': 'success', 'sentence': current_sentence})
+    return jsonify({'result': 'error', 'message': 'No sentence to speak'})
 
 # Data collection function for training with special commands
 def collect_training_data():
@@ -441,7 +449,7 @@ def create_html_template():
 
         // Function to reset the sentence
         function resetSentence() {
-            fetch('/reset_sentence')
+            fetch('/api/reset_sentence')  // Match the new route path
                 .then(response => response.json())
                 .then(data => {
                     updateSentence();
@@ -457,7 +465,9 @@ def create_html_template():
             fetch('/speak_sentence')
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Speaking: ', data.text);
+                    if (data.result === 'success') {
+                        console.log('Speaking: ' + data.sentence);
+                    }
                 });
         }
     </script>
@@ -475,7 +485,7 @@ def create_html_template():
 
         <div class="control-buttons">
             <button onclick="resetSentence()">Clear Sentence</button>
-            <button onclick="speakSentence()" style="background-color: #28a745;">Speak</button>
+            <button onclick="speakSentence()">Speak Sentence</button>
         </div>
 
         <h3>American Sign Language Alphabet</h3>
