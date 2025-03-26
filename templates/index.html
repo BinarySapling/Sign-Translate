@@ -1,5 +1,6 @@
 
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Sign Language Translator</title>
@@ -69,10 +70,28 @@
             background-color: #f9f9f9;
             border: 1px solid #ddd;
             border-radius: 5px;
-            padding: 10px;
-            width: 30px;
+            padding: 15px;
+            width: 50px;
             text-align: center;
             font-weight: bold;
+            position: relative;
+            cursor: pointer;
+        }
+        .alphabet-item .hover-sign {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            max-width: 200px;
+            max-height: 200px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .alphabet-item:hover .hover-sign {
+            display: block;
         }
         .command-guide {
             display: flex;
@@ -82,7 +101,26 @@
             gap: 15px;
         }
         .command-item {
-            background-color: #e6f7ff;
+            background-color: #007bff;
+            border: 1px solid #91d5ff;
+            border-radius: 5px;
+            padding: 10px;
+            min-width: 80px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .dark-mode {
+            background-color: #333;
+            color: #fff;
+        }
+        .dark-mode .container {
+            background-color: #444;
+        }
+
+        .command-item2{
+            margin-top: 20px;
+            background-color: #007bff;
             border: 1px solid #91d5ff;
             border-radius: 5px;
             padding: 10px;
@@ -92,7 +130,7 @@
         }
     </style>
     <script>
-        // Function to update the sentence display
+        // Existing JavaScript functions remain the same
         function updateSentence() {
             fetch('/get_sentence')
                 .then(response => response.json())
@@ -101,16 +139,14 @@
                 });
         }
 
-        // Function to reset the sentence
         function resetSentence() {
-            fetch('/api/reset_sentence')  // Match the new route path
+            fetch('/api/reset_sentence')
                 .then(response => response.json())
                 .then(data => {
                     updateSentence();
                 });
         }
 
-        // Update the sentence every second
         window.onload = function() {
             setInterval(updateSentence, 1000);
         };
@@ -123,6 +159,10 @@
                         console.log('Speaking: ' + data.sentence);
                     }
                 });
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
         }
     </script>
 </head>
@@ -144,32 +184,84 @@
 
         <h3>American Sign Language Alphabet</h3>
         <div class="alphabet-guide">
-            <div class="alphabet-item">A</div>
-            <div class="alphabet-item">B</div>
-            <div class="alphabet-item">C</div>
-            <div class="alphabet-item">D</div>
-            <div class="alphabet-item">E</div>
-            <div class="alphabet-item">F</div>
-            <div class="alphabet-item">G</div>
-            <div class="alphabet-item">H</div>
-            <div class="alphabet-item">I</div>
-            <div class="alphabet-item">J</div>
-            <div class="alphabet-item">K</div>
-            <div class="alphabet-item">L</div>
-            <div class="alphabet-item">M</div>
-            <div class="alphabet-item">N</div>
-            <div class="alphabet-item">O</div>
-            <div class="alphabet-item">P</div>
-            <div class="alphabet-item">Q</div>
-            <div class="alphabet-item">R</div>
-            <div class="alphabet-item">S</div>
-            <div class="alphabet-item">T</div>
-            <div class="alphabet-item">U</div>
-            <div class="alphabet-item">V</div>
-            <div class="alphabet-item">W</div>
-            <div class="alphabet-item">X</div>
-            <div class="alphabet-item">Y</div>
-            <div class="alphabet-item">Z</div>
+            <button class="alphabet-item">A
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/A.jpg') }}" alt="A Sign Language">
+            </button>
+            <button class="alphabet-item">B
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/B.jpg') }}" alt="B Sign Language">
+            </button>
+            <button class="alphabet-item">C
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/C.jpg') }}" alt="C Sign Language">
+            </button>
+            <button class="alphabet-item">D
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/D.jpg') }}" alt="D Sign Language">
+            </button>
+            <button class="alphabet-item">E
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/E.jpg') }}" alt="E Sign Language">
+            </button>
+            <button class="alphabet-item">F
+
+            </button>
+            <button class="alphabet-item">G
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/G.jpg') }}" alt="G Sign Language">
+            </button>
+            <button class="alphabet-item">H
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/H.jpg') }}" alt="H Sign Language">
+            </button>
+            <button class="alphabet-item">I
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/I.jpg') }}" alt="I Sign Language">
+            </button>
+            <button class="alphabet-item">J
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/J.jpg') }}" alt="J Sign Language">
+            </button>
+            <button class="alphabet-item">K
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/K.jpg') }}" alt="K Sign Language">
+            </button>
+            <button class="alphabet-item">L
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/L.jpg') }}" alt="L Sign Language">
+            </button>
+            <button class="alphabet-item">M
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/M.jpg') }}" alt="M Sign Language">
+            </button>
+            <button class="alphabet-item">N
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/N.jpg') }}" alt="N Sign Language">
+            </button>
+            <button class="alphabet-item">O
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/O.jpg') }}" alt="O Sign Language">
+            </button>
+            <button class="alphabet-item">P
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/P.jpg') }}" alt="P Sign Language">
+            </button>
+            <button class="alphabet-item">Q
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/Q.jpg') }}" alt="Q Sign Language">
+            </button>
+            <button class="alphabet-item">R
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/R.jpg') }}" alt="R Sign Language">
+            </button>
+            <button class="alphabet-item">S
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/S.jpg') }}" alt="S Sign Language">
+            </button>
+            <button class="alphabet-item">T
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/T.jpg') }}" alt="T Sign Language">
+            </button>
+            <button class="alphabet-item">U
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/U.jpg') }}" alt="U Sign Language">
+            </button>
+            <button class="alphabet-item">V
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/V.jpg') }}" alt="V Sign Language">
+            </button>
+            <button class="alphabet-item">W
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/W.jpg') }}" alt="W Sign Language">
+            </button>
+            <button class="alphabet-item">X
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/X.jpg') }}" alt="X Sign Language">
+            </button>
+            <button class="alphabet-item">Y
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/Y.jpg') }}" alt="Y Sign Language">
+            </button>
+            <button class="alphabet-item">Z
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/Z.jpg') }}" alt="Z Sign Language">
+            </button>
         </div>
 
         <h3>Special Commands</h3>
@@ -179,6 +271,7 @@
             <div class="command-item">DELETE</div>
             <div class="command-item">NOTHING</div>
         </div>
+        <button class="command-item2" onclick="toggleDarkMode()">Toggle Dark Mode</button>
     </div>
 </body>
 </html>
