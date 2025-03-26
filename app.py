@@ -543,7 +543,7 @@ def create_html_template():
                 <img class="hover-sign" src="{{ url_for('static', filename='Sign/E.jpg') }}" alt="E Sign Language">
             </button>
             <button class="alphabet-item">F
-
+                <img class="hover-sign" src="{{ url_for('static', filename='Sign/F.jpg') }}" alt="F Sign Language">
             </button>
             <button class="alphabet-item">G
                 <img class="hover-sign" src="{{ url_for('static', filename='Sign/G.jpg') }}" alt="G Sign Language">
